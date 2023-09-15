@@ -143,4 +143,3 @@ This code was developed based on the  <a href="https://github.com/melishev/strap
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-# strapi-plugin-editorjs-field
