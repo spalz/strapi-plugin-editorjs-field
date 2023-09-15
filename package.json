@@ -1,6 +1,6 @@
 {
   "name": "strapi-plugin-editorjs-field",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "You can extend the capabilities of strapi.io by incorporating a custom field utilizing the EditorJs editor.",
   "homepage": "https://market.strapi.io/strapi-plugin-editorjs-field",
   "strapi": {
