@@ -23,6 +23,7 @@ module.exports = ({ strapi }) => {
     inlineCode: strapi.plugin(pluginId).config("inlineCode"),
     image: strapi.plugin(pluginId).config("image"),
     attaches: strapi.plugin(pluginId).config("attaches"),
+    component: strapi.plugin(pluginId).config("component"),
     minHeight: strapi.plugin(pluginId).config("minHeight"),
   });
 };

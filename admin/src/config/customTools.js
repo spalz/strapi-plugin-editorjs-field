@@ -11,7 +11,7 @@ import Marker from "@editorjs/marker";
 import CheckList from "@editorjs/checklist";
 import Delimiter from "@editorjs/delimiter";
 import InlineCode from "@editorjs/inline-code";
-// import ComponentSelectorTool from "editorjs-component-selector";
+import ComponentSelectorTool from "editorjs-component-selector";
 
 const customTools = (options, config) => {
   return {
@@ -116,6 +116,14 @@ const customTools = (options, config) => {
           inlineCode: {
             class: InlineCode,
             ...(config.inlineCode ? config.inlineCode : {}),
+          },
+        }
+      : {}),
+    ...(options.component
+      ? {
+          component: {
+            class: ComponentSelectorTool,
+            ...(config.component ? config.component : {}),
           },
         }
       : {}),

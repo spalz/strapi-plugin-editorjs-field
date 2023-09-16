@@ -35,6 +35,7 @@
 - [x] [Delimiter Tool](https://github.com/editor-js/delimiter)
 - [x] [InlineCode Tool](https://github.com/editor-js/inline-code)
 - [x] [Attaches Tool](https://github.com/editor-js/attaches)
+- [x] [Component Selector](https://github.com/VLZH/editorjs-component-selector)
 
 ## Instalation
 
@@ -92,6 +93,24 @@ export default ({ env }) => ({
       inlineCode: { inlineToolbar: true },
       image: null,
       attaches: null,
+      component: {
+        config: {
+          components: [
+            {
+              name: "order_form",
+              alias: "Order form",
+              props: {},
+              preview: "/uploads/editrjs_form_cc432c18c8.png",
+            },
+            {
+              name: "leaderboard",
+              alias: "Leaderboard",
+              props: {},
+              preview: "/uploads/editorjs_leaderboard_3f669967c6.jpg",
+            },
+          ],
+        },
+      },
       minHeight: 200,
     },
   },

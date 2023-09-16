@@ -17,6 +17,7 @@ module.exports = {
     inlineCode: null,
     image: null,
     attaches: null,
+    component: null,
     minHeight: null,
   },
 };

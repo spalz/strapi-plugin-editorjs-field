@@ -160,6 +160,15 @@ export default {
                   defaultMessage: "Attaches",
                 },
               },
+              {
+                name: "options.component",
+                type: "checkbox",
+                defaultValue: false,
+                intlLabel: {
+                  id: "editorjs.tools.settings.component",
+                  defaultMessage: "Component selector",
+                },
+              },
             ],
           },
           {
