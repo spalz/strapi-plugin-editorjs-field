@@ -127,9 +127,15 @@ const EditorField = ({
         onChange={(api) => {
           setnewEditorInstance(api);
           api.saver.save().then((blocks) => {
-            onChange({
-              target: { name, value: JSON.stringify(blocks) },
-            });
+            if (blocks?.blocks?.length > 0) {
+              onChange({
+                target: { name, value: JSON.stringify(blocks) },
+              });
+            } else {
+              onChange({
+                target: { name, value: null },
+              });
+            }
           });
         }}
         minHeight={config.minHeight ? config.minHeight : 80}

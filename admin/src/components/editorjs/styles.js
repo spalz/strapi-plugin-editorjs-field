@@ -26,6 +26,9 @@ export const SStyleWrapper = styled(Box)`
     border-radius: ${({ theme }) => theme.borderRadius};
     background: ${({ theme }) => theme.colors.neutral0};
   }
+  &.error .codex-editor {
+    border-color: ${({ theme }) => theme.colors.danger700};
+  }
   .ce-block--selected {
     .ce-block__content {
       background: ${({ theme }) => theme.colors.neutral100};

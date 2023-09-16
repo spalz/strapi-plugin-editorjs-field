@@ -3,13 +3,11 @@ import PropTypes from "prop-types";
 import Editor from "../editorjs_field";
 import { useIntl } from "react-intl";
 import {
-  Typography,
   Field,
   FieldError,
   FieldHint,
   FieldLabel,
   Stack,
-  Flex,
 } from "@strapi/design-system";
 import { SStyleWrapper } from "./styles";
 import usePluginConfig from "../../hooks/use-plugin-config";
@@ -25,19 +23,21 @@ const Editorjs = ({
   attribute,
   labelAction,
   placeholder,
+  error,
 }) => {
   const { formatMessage } = useIntl();
 
   const { config, isLoading } = usePluginConfig();
 
   return (
-    <SStyleWrapper>
+    <SStyleWrapper className={error !== null ? "error" : null}>
       {config ? (
         <Field
           id={name}
           name={name}
           hint={description && formatMessage(description)}
           required={required}
+          error={error}
         >
           <Stack spacing={1}>
             <FieldLabel
