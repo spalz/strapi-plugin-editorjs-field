@@ -1,0 +1,5 @@
+{
+  "extends": "@strapi/typescript-utils/tsconfigs/server.json",
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}
