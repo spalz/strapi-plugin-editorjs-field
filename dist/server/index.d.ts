@@ -1,6 +1,6 @@
 declare const _default: {
     register: ({ strapi }: {
-        strapi: import("@strapi/strapi").Strapi;
+        strapi: any;
     }) => void;
     config: {
         default: {

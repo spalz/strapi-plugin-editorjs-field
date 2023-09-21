@@ -1,11 +1,9 @@
-import { Strapi } from "@strapi/strapi";
-
 import { pluginId } from "./utils";
 
-export const register = ({ strapi }: { strapi: Strapi }) => {
+export const register = ({ strapi }: { strapi: any }) => {
   strapi.customFields.register({
     name: pluginId,
-    pluginId: pluginId,
+    plugin: pluginId,
     type: "richtext",
   });
 };

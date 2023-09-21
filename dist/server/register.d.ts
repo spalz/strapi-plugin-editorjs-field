@@ -1,4 +1,3 @@
-import { Strapi } from "@strapi/strapi";
 export declare const register: ({ strapi }: {
-    strapi: Strapi;
+    strapi: any;
 }) => void;

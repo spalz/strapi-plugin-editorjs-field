@@ -5,7 +5,7 @@ import { LocalFileData as y } from "get-file-object-from-local-path";
 const s = "editorjs", b = (t) => t.plugin(s).service("plugin"), w = ({ strapi: t }) => {
   t.customFields.register({
     name: s,
-    pluginId: s,
+    plugin: s,
     type: "richtext"
   });
 }, c = {}, j = ({ strapi: t }) => ({
