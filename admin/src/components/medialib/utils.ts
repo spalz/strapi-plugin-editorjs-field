@@ -1,4 +1,12 @@
-export const getToggleFunc = ({ openStateSetter, indexStateSetter }) => {
+type ToggleFuncParams = {
+  openStateSetter: React.Dispatch<React.SetStateAction<boolean>>;
+  indexStateSetter: React.Dispatch<React.SetStateAction<number>>;
+};
+
+export const getToggleFunc = ({
+  openStateSetter,
+  indexStateSetter,
+}: ToggleFuncParams): ((idx: number) => void) => {
   return (idx) => {
     if (idx || idx === 0) {
       indexStateSetter(idx);
@@ -8,7 +16,29 @@ export const getToggleFunc = ({ openStateSetter, indexStateSetter }) => {
   };
 };
 
-export const changeFunc = ({ indexStateSetter, editor, data, index }) => {
+type ChangeFuncParams = {
+  indexStateSetter: React.Dispatch<React.SetStateAction<number>>;
+  editor: any;
+  data: {
+    mime: string;
+    url: string;
+    height: number;
+    width: number;
+    size: number;
+    alt: string;
+    formats: any;
+    name: string;
+    ext: string;
+  }[];
+  index: number;
+};
+
+export const changeFunc = ({
+  indexStateSetter,
+  editor,
+  data,
+  index,
+}: ChangeFuncParams): void => {
   let insertedBlocksCount = 0;
   data.forEach((entry) => {
     if (!entry.mime.includes("image")) {
@@ -50,7 +80,7 @@ export const changeFuncAttaches = ({
   editor,
   data,
   index,
-}) => {
+}: ChangeFuncParams): void => {
   let insertedBlocksCount = 0;
   data.forEach((entry) => {
     const newBlockType = "attaches";

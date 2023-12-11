@@ -1,7 +1,7 @@
-"use strict";
-
 import pluginId from "./plugin-id";
 
-const getService = (strapi) => strapi.plugin(pluginId).service("plugin");
+const getService = (name: string): any => {
+  return strapi.plugin(pluginId).service(name);
+};
 
 export default getService;

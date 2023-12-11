@@ -96,3 +96,16 @@ test
 tests
 __tests__
 jest.config.js
+
+############################
+# others
+############################
+
+.eslintignore
+.eslintrc.js
+.gitignore
+LICENSE
+README.md
+yarn.lock
+server
+admin

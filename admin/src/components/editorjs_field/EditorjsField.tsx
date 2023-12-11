@@ -1,8 +1,11 @@
-import { useState, useCallback, useRef, useEffect } from "react";
-
-import { API, ToolConstructable, ToolSettings } from "@editorjs/editorjs";
-import { useQueryParams } from "@strapi/helper-plugin";
-import { createReactEditorJS } from "react-editor-js";
+import React, { useEffect, useRef, memo, useState, useCallback } from "react";
+import EditorJS, {
+  API,
+  ToolConstructable,
+  ToolSettings,
+  OutputData,
+} from "@editorjs/editorjs";
+import styled from "styled-components";
 import { MessageDescriptor } from "react-intl";
 
 import { customTools } from "../../config/customTools";
@@ -19,7 +22,11 @@ import {
 interface IEditorjsField {
   intlLabel: MessageDescriptor;
   onChange: (event: {
-    target: { name: string; value: string | null; type: string };
+    target: {
+      name: string;
+      value: string | null;
+      type: string;
+    };
   }) => void;
   attribute: { options: { [key: string]: unknown } };
   name: string;
@@ -35,16 +42,26 @@ interface IEditorjsField {
   config?: any;
 }
 
-export const EditorjsField: React.FC<IEditorjsField> = ({
-  onChange,
+const INITIAL_DATA: OutputData = {
+  time: new Date().getTime(),
+  blocks: [
+    {
+      type: "paragraph",
+      data: {
+        text: "",
+      },
+    },
+  ],
+};
+
+let EditorjsFieldNew: React.FC<IEditorjsField> = ({
   name,
   value,
+  onChange,
   attribute,
   config,
-  placeholder,
 }) => {
-  const ReactEditorJS = createReactEditorJS();
-
+  const ref = useRef<EditorJS | null>(null);
   const [newEditorInstance, setnewEditorInstance] = useState<API>();
   const [mediaLibBlockIndex, setMediaLibBlockIndex] = useState(-1);
   const [isMediaLibOpen, setIsMediaLibOpen] = useState(false);
@@ -70,7 +87,8 @@ export const EditorjsField: React.FC<IEditorjsField> = ({
   );
 
   const handleMediaLibChange = useCallback(
-    (data) => {
+    (data: any) => {
+      console.log("handleMediaLibChange", data);
       changeFunc({
         indexStateSetter: setMediaLibBlockIndex,
         data,
@@ -83,7 +101,8 @@ export const EditorjsField: React.FC<IEditorjsField> = ({
   );
 
   const handleMediaLibAttachesChange = useCallback(
-    (data) => {
+    (data: any) => {
+      console.log("handleMediaLibAttachesChange", data);
       changeFuncAttaches({
         indexStateSetter: setMediaLibAttachesBlockIndex,
         data,
@@ -119,30 +138,22 @@ export const EditorjsField: React.FC<IEditorjsField> = ({
         : {}),
     };
 
-  const query = useQueryParams();
-  const myRef = useRef<number>(0);
-
   useEffect(() => {
-    myRef.current = myRef?.current + 1;
-  }, [query]);
+    if (!ref.current) {
+      const editor = new EditorJS({
+        holder: `${name}`,
 
-  return (
-    <>
-      <ReactEditorJS
-        key={`editorjs${myRef.current}`}
-        holder={`editorjs${name}`}
-        defaultValue={value ? JSON.parse(value) : undefined}
-        onReady={() => {
-          document?.querySelector('[data-item-name="image"]')?.remove();
-          document?.querySelector('[data-item-name="attaches"]')?.remove();
-        }}
-        tools={{
+        tools: {
           ...requiredTools,
           ...customTools(attribute.options, config),
           ...customToolsOther,
-        }}
-        placeholder={placeholder?.defaultMessage}
-        onChange={(api: API) => {
+        },
+        onReady: () => {
+          document?.querySelector('[data-item-name="image"]')?.remove();
+          document?.querySelector('[data-item-name="attaches"]')?.remove();
+        },
+        data: !value || value === "" ? INITIAL_DATA : JSON.parse(value),
+        async onChange(api, event) {
           setnewEditorInstance(api);
           api.saver.save().then((blocks) => {
             if (blocks?.blocks?.length > 0) {
@@ -155,9 +166,22 @@ export const EditorjsField: React.FC<IEditorjsField> = ({
               });
             }
           });
-        }}
-        minHeight={config.minHeight ? config.minHeight : 80}
-      />
+        },
+        minHeight: config.minHeight ? config.minHeight : 80,
+      });
+      ref.current = editor;
+    }
+
+    return () => {
+      if (ref.current && ref.current.destroy) {
+        ref.current.destroy();
+      }
+    };
+  }, []);
+
+  return (
+    <div>
+      <SEditor id={`${name}`} />
       <MediaLibComponent
         isOpen={isMediaLibOpen}
         onChange={handleMediaLibChange}
@@ -170,6 +194,14 @@ export const EditorjsField: React.FC<IEditorjsField> = ({
         onToggle={mediaLibAttachesToggleFunc}
         allowedTypes={["files"]}
       />
-    </>
+    </div>
   );
 };
+
+EditorjsFieldNew = memo(EditorjsFieldNew);
+
+const SEditor = styled.div`
+  width: 100%;
+`;
+
+export default EditorjsFieldNew;

@@ -3,7 +3,7 @@
 import { Strapi } from "@strapi/strapi";
 
 import config from "../config";
-import { pluginId } from "../utils";
+import pluginId from "../utils/plugin-id";
 
 export default ({ strapi }: { strapi: Strapi }) => ({
   async getConfig() {

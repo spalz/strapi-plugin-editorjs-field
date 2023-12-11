@@ -1,87 +1,109 @@
-import m from "open-graph-scraper";
-import { parseMultipartData as f } from "@strapi/utils";
-import h from "axios";
-import { LocalFileData as y } from "get-file-object-from-local-path";
-const s = "editorjs", b = (t) => t.plugin(s).service("plugin"), w = ({ strapi: t }) => {
-  t.customFields.register({
-    name: s,
-    plugin: s,
+import ogs from "open-graph-scraper";
+import { parseMultipartData } from "@strapi/utils";
+import axios from "axios";
+import fs from "fs";
+import path from "path";
+import { LocalFileData } from "get-file-object-from-local-path";
+const pluginId = "editorjs";
+const getService = (name) => {
+  return strapi.plugin(pluginId).service(name);
+};
+const register = ({ strapi: strapi2 }) => {
+  strapi2.customFields.register({
+    name: pluginId,
+    // @ts-ignore
+    plugin: pluginId,
     type: "richtext"
   });
-}, c = {}, j = ({ strapi: t }) => ({
-  config: async (n) => {
-    const i = await b("plugin").getConfig();
-    n.send(i);
+};
+const upload = ({ strapi: strapi2 }) => ({
+  config: async (ctx) => {
+    const config2 = await getService("plugin").getConfig();
+    ctx.send(config2);
   },
-  link: async (n) => {
-    const i = await new Promise(
-      (a) => {
-        m(n.query, (r, e, d) => {
-          var o;
-          const l = (o = e == null ? void 0 : e.ogImage) != null && o.url ? { url: e.ogImage.url } : void 0;
-          a({
+  link: async (ctx) => {
+    const result = await new Promise(
+      (resolve) => {
+        ogs(ctx.query, (error, results, response) => {
+          if (error || !("ogTitle" in results)) {
+            resolve({ success: 0, meta: {} });
+            return;
+          }
+          const customResults = results;
+          const imageUrl = customResults.ogImage?.url ? { url: customResults.ogImage.url } : void 0;
+          resolve({
             success: 1,
             meta: {
-              title: e == null ? void 0 : e.ogTitle,
-              description: e == null ? void 0 : e.ogDescription,
-              image: l
+              title: customResults.ogTitle,
+              description: customResults.ogDescription,
+              image: imageUrl
             }
           });
         });
       }
     );
-    n.send(i);
+    ctx.send(result);
   },
-  byFile: async (n) => {
+  byFile: async (ctx) => {
     try {
-      const { files: i } = f(n), [a] = await t.plugin("upload").service("upload").upload({
+      const { files } = parseMultipartData(ctx);
+      const [uploadedFile] = await strapi2.plugin("upload").service("upload").upload({
         data: {},
-        files: Object.values(i)
+        files: Object.values(files)
       });
-      n.send({
+      ctx.send({
         success: 1,
-        file: a
+        file: uploadedFile
       });
-    } catch (i) {
-      n.send(
+    } catch (e) {
+      ctx.send(
         {
           success: 0,
-          message: i.message
+          message: e.message
         },
         500
       );
     }
   },
-  byURL: async (n) => {
+  byURL: async (ctx) => {
     try {
-      const { url: i } = n.request.body, { name: a, ext: r } = c.parse(i), e = `./public/${a}${r}`, d = await h.get(i, { responseType: "arraybuffer" }), l = Buffer.from(d.data, "binary");
-      await c.promises.writeFile(e, l);
-      const o = new y(e), p = {
-        path: e,
-        name: o.name,
-        type: o.type,
-        size: Buffer.byteLength(l)
-      }, [g] = await t.plugin("upload").service("upload").upload({
+      const { url } = ctx.request.body;
+      const { name, ext } = path.parse(url);
+      const filePath = `./public/${name}${ext}`;
+      const response = await axios.get(url, { responseType: "arraybuffer" });
+      const buffer = Buffer.from(response.data, "binary");
+      await fs.promises.writeFile(filePath, buffer);
+      const fileData = new LocalFileData(filePath);
+      const file = {
+        path: filePath,
+        name: fileData.name,
+        type: fileData.type,
+        size: Buffer.byteLength(buffer)
+      };
+      const [uploadedFile] = await strapi2.plugin("upload").service("upload").upload({
         data: {},
-        files: p
+        files: file
       });
-      await c.promises.unlink(e), n.send({
+      await fs.promises.unlink(filePath);
+      ctx.send({
         success: 1,
-        file: g
+        file: uploadedFile
       });
-    } catch (i) {
-      n.send(
+    } catch (e) {
+      ctx.send(
         {
           success: 0,
-          message: i.message
+          message: e.message
         },
         500
       );
     }
   }
-}), k = {
-  editorjs: j
-}, u = {
+});
+const controllers = {
+  editorjs: upload
+};
+const config = {
   default: {
     header: null,
     list: null,
@@ -101,7 +123,8 @@ const s = "editorjs", b = (t) => t.plugin(s).service("plugin"), w = ({ strapi: t
     component: null,
     minHeight: null
   }
-}, F = {
+};
+const routes = {
   editorjs: {
     type: "admin",
     routes: [
@@ -124,7 +147,7 @@ const s = "editorjs", b = (t) => t.plugin(s).service("plugin"), w = ({ strapi: t
         handler: "editorjs.link",
         config: {
           description: "Get a URL link",
-          auth: !1
+          auth: false
         }
       },
       {
@@ -132,7 +155,7 @@ const s = "editorjs", b = (t) => t.plugin(s).service("plugin"), w = ({ strapi: t
         path: "/image/byFile",
         handler: "editorjs.byFile",
         config: {
-          auth: !1
+          auth: false
         }
       },
       {
@@ -140,25 +163,29 @@ const s = "editorjs", b = (t) => t.plugin(s).service("plugin"), w = ({ strapi: t
         path: "/image/byUrl",
         handler: "editorjs.byURL",
         config: {
-          auth: !1
+          auth: false
         }
       }
     ]
   }
-}, v = ({ strapi: t }) => ({
+};
+const plugin = ({ strapi: strapi2 }) => ({
   async getConfig() {
-    return await t.config.get(`plugin.${s}`, u.default);
+    const data = await strapi2.config.get(`plugin.${pluginId}`, config.default);
+    return data;
   }
-}), T = {
-  plugin: v
-}, q = {
-  register: w,
-  config: u,
-  routes: F,
-  controllers: k,
-  services: T
+});
+const services = {
+  plugin
+};
+const index = {
+  register,
+  config,
+  routes,
+  controllers,
+  services
 };
 export {
-  q as default
+  index as default
 };
 //# sourceMappingURL=index.mjs.map

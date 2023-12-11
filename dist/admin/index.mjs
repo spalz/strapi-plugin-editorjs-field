@@ -1,9 +1,9 @@
-import { i as a } from "../_chunks/index-60f1300c.mjs";
+import { i } from "../_chunks/index-7b09320f.mjs";
 import "@strapi/helper-plugin";
-import "react";
+import "react/jsx-runtime";
 import "@strapi/design-system";
 import "styled-components";
 export {
-  a as default
+  i as default
 };
 //# sourceMappingURL=index.mjs.map

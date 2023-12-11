@@ -1,2 +1,0 @@
-"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const e={"editorjs.label":"EditorJs","editorjs.description":"Block-style editor, JSON output","editorjs.tools.settings":"Tools settings, enabling / disabling tools","editorjs.options.advanced.requiredField":"Required field","editorjs.options.advanced.requiredField.description":"You won't be able to create an entry if this field is empty"};exports.default=e;
-//# sourceMappingURL=en-28b77850.js.map

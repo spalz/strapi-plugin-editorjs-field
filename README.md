@@ -43,12 +43,12 @@
 
 ```text
 #npm
-npm install @spalz/strapi-plugin-editorjs-field-help
+npm install strapi-plugin-editorjs-field
 ```
 
 ```text
 #yarn
-yarn add @spalz/strapi-plugin-editorjs-field-help
+yarn add strapi-plugin-editorjs-field
 ```
 
 2. Add configuration plugin
@@ -93,24 +93,7 @@ export default ({ env }) => ({
       inlineCode: { inlineToolbar: true },
       image: null,
       attaches: null,
-      component: {
-        config: {
-          components: [
-            {
-              name: "order_form",
-              alias: "Order form",
-              props: {},
-              preview: "/uploads/editrjs_form_cc432c18c8.png",
-            },
-            {
-              name: "leaderboard",
-              alias: "Leaderboard",
-              props: {},
-              preview: "/uploads/editorjs_leaderboard_3f669967c6.jpg",
-            },
-          ],
-        },
-      },
+      component: null,
       minHeight: 200,
     },
   },

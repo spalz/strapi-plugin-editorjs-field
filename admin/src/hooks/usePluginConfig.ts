@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-
-import { request, useNotification } from "@strapi/helper-plugin";
+import { useFetchClient, useNotification } from "@strapi/helper-plugin";
 import { useSelector, useDispatch } from "react-redux";
 
 import { RESOLVE_CONFIG } from "../constants";
@@ -8,13 +7,13 @@ import { pluginId } from "../utils/pluginId";
 
 export const usePluginConfig = () => {
   const dispatch = useDispatch();
+  const fetchClient = useFetchClient(); // Использование useFetchClient
   const toggleNotification = useNotification();
   const { config, isLoading } = useSelector(
     (state: any) => state[`${pluginId}_config`]
   );
 
   useEffect(() => {
-    // Do nothing if we have already loaded the config data.
     if (!isLoading && !!config) {
       return;
     }
@@ -24,8 +23,7 @@ export const usePluginConfig = () => {
     const fetchData = async () => {
       try {
         const endpoint = `/${pluginId}/config`;
-        const data = await request(endpoint, {
-          method: "GET",
+        const { data } = await fetchClient.get(endpoint, {
           signal: abortController.signal,
         });
 
@@ -45,7 +43,7 @@ export const usePluginConfig = () => {
     fetchData().then((data) => dispatch({ type: RESOLVE_CONFIG, data }));
 
     return () => abortController.abort();
-  }, [dispatch, toggleNotification]);
+  }, [dispatch, fetchClient, toggleNotification]);
 
   return { config, isLoading };
 };

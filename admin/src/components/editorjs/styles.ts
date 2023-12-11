@@ -2,6 +2,7 @@ import { Box } from "@strapi/design-system";
 import styled from "styled-components";
 
 export const SStyleWrapper = styled(Box)`
+  width: 100%;
   .codex-editor__redactor {
     color: ${({ theme }) => theme.colors.neutral800};
   }
@@ -216,9 +217,16 @@ export const SStyleWrapper = styled(Box)`
 
   .cdx-warning {
     &:before {
-      filter: invert(1);
-      background-color: rgb(24, 24, 38);
+      background-color: #fff;
+      background-position: center;
       border-radius: ${({ theme }) => theme.borderRadius};
     }
+  }
+
+  .ce-code .cdx-input,
+  .ce-rawtool .cdx-input {
+    color: ${({ theme }) => theme.colors.neutral800};
+    background: ${({ theme }) => theme.colors.neutral100};
+    border: 1px solid ${({ theme }) => theme.colors.neutral200};
   }
 `;

@@ -6,7 +6,6 @@ import { reducers } from "./reducers/reducers";
 import { getTrad } from "./utils/getTrad";
 import { pluginId } from "./utils/pluginId";
 
-// eslint-disable-next-line import/no-default-export
 export default {
   register(app: StrapiAdminInstance) {
     app.addReducers(reducers);
@@ -203,7 +202,7 @@ export default {
       },
     });
   },
-  async registerTrads({ locales }) {
+  async registerTrads({ locales }: { locales: string[] }) {
     const importedTrads = await Promise.all(
       locales.map((locale) => {
         return import(`./translations/${locale}.json`)

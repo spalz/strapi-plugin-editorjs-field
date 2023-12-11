@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 import {
   Field,
@@ -10,7 +10,7 @@ import {
 import { MessageDescriptor, useIntl } from "react-intl";
 
 import { usePluginConfig } from "../../hooks/usePluginConfig";
-import { EditorjsField } from "../editorjs_field/EditorjsField";
+import EditorjsFieldNew from "../editorjs_field/EditorjsField";
 
 import { SStyleWrapper } from "./styles";
 
@@ -19,56 +19,50 @@ interface IEditorjs {
   onChange: (event: {
     target: { name: string; value: string | null; type: string };
   }) => void;
-  attribute: { options: { [key: string]: unknown } };
+  attribute: { required: boolean; options: { [key: string]: unknown } };
   name: string;
   description?: MessageDescriptor;
   disabled?: boolean;
   error?: string;
   labelAction?: React.ReactNode;
-  required?: boolean;
   value?: string;
   placeholder?: {
     defaultMessage: string;
   };
 }
 
-export const Editorjs: React.FC<IEditorjs> = ({
-  name,
-  description,
-  intlLabel,
-  required,
-  onChange,
-  value,
-  disabled,
-  attribute,
-  labelAction,
-  placeholder,
-  error,
-}) => {
-  const { formatMessage } = useIntl();
+export const Editorjs = React.forwardRef(
+  (
+    {
+      name,
+      description,
+      intlLabel,
+      onChange,
+      value,
+      disabled,
+      attribute,
+      labelAction,
+      placeholder,
+      error,
+    }: IEditorjs,
+    ref: React.Ref<any>
+  ) => {
+    const { formatMessage } = useIntl();
+    const { config } = usePluginConfig();
 
-  const { config } = usePluginConfig();
-
-  return (
-    <>
-      <SStyleWrapper className={error !== null ? "error" : null}>
+    return (
+      <SStyleWrapper className={error !== "" ? "error" : null}>
         {config ? (
           <Field
             id={name}
             name={name}
             hint={description && formatMessage(description)}
-            required={required}
+            required={attribute.required}
             error={error}
           >
             <Stack spacing={1}>
-              <FieldLabel
-                action={labelAction}
-                required={required}
-                style={{ display: "inline-flex" }}
-              >
-                {formatMessage(intlLabel)}
-              </FieldLabel>
-              <EditorjsField
+              <FieldLabel>{formatMessage(intlLabel)}</FieldLabel>
+              <EditorjsFieldNew
                 intlLabel={intlLabel}
                 onChange={onChange}
                 attribute={attribute}
@@ -77,7 +71,7 @@ export const Editorjs: React.FC<IEditorjs> = ({
                 disabled={disabled}
                 error={error}
                 labelAction={labelAction}
-                required={required}
+                required={attribute.required}
                 value={value}
                 placeholder={placeholder}
                 config={config}
@@ -88,6 +82,6 @@ export const Editorjs: React.FC<IEditorjs> = ({
           </Field>
         ) : null}
       </SStyleWrapper>
-    </>
-  );
-};
+    );
+  }
+);

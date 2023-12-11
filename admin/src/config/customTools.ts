@@ -13,7 +13,41 @@ import Table from "@editorjs/table";
 import Warning from "@editorjs/warning";
 import ComponentSelectorTool from "editorjs-component-selector";
 
-export const customTools = (options, config) => {
+type ToolOptions = {
+  header?: boolean;
+  list?: boolean;
+  checklist?: boolean;
+  embed?: boolean;
+  table?: boolean;
+  warning?: boolean;
+  code?: boolean;
+  link_tool?: boolean;
+  raw?: boolean;
+  quote?: boolean;
+  marker?: boolean;
+  delimiter?: boolean;
+  inlineCode?: boolean;
+  component?: boolean;
+};
+
+type ToolConfig = {
+  header?: any;
+  list?: any;
+  checklist?: any;
+  embed?: any;
+  table?: any;
+  warning?: any;
+  code?: any;
+  link_tool?: any;
+  raw?: any;
+  quote?: any;
+  marker?: any;
+  delimiter?: any;
+  inlineCode?: any;
+  component?: any;
+};
+
+export const customTools = (options: ToolOptions, config: ToolConfig): {} => {
   return {
     ...(options.header
       ? {
@@ -119,7 +153,7 @@ export const customTools = (options, config) => {
           },
         }
       : {}),
-    ...(options.component
+    ...(options.component && config.component
       ? {
           component: {
             class: ComponentSelectorTool,

@@ -1,14 +1,9 @@
-import * as React from "react";
-
 import { Flex } from "@strapi/design-system";
 import styled from "styled-components";
 
 const IconBox = styled(Flex)`
   background-color: #f0f0ff;
   border: 1px solid #d9d8ff;
-  /* svg > path {
-    fill: #4285f4;
-  } */
 `;
 
 export const EditorjsIcon = () => {

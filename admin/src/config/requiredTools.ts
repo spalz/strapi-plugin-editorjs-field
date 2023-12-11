@@ -20,7 +20,7 @@ export const requiredTools = {
         byUrl: `/api/${pluginId}/image/byUrl`,
       },
       uploader: {
-        async uploadByFile(file) {
+        async uploadByFile(file: any) {
           const formData = new FormData();
           formData.append("data", JSON.stringify({}));
           formData.append("files.image", file);
@@ -54,7 +54,7 @@ export const requiredTools = {
         byUrl: `/api/${pluginId}/image/byUrl`,
       },
       uploader: {
-        async uploadByFile(file) {
+        async uploadByFile(file: any) {
           const formData = new FormData();
           formData.append("data", JSON.stringify({}));
           formData.append("files.image", file);

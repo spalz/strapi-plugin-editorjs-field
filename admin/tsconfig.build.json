@@ -1,9 +1,10 @@
 {
   "extends": "./tsconfig.json",
   "include": ["./src"],
-  "exclude": ["./src/**/*.test.tsx"],
+  "exclude": ["**/*.test.tsx"],
   "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./dist/admin"
+    "rootDir": "../",
+    "baseUrl": ".",
+    "outDir": "./dist"
   }
 }
