@@ -7,7 +7,7 @@ import { pluginId } from "../utils/pluginId";
 
 export const usePluginConfig = () => {
   const dispatch = useDispatch();
-  const fetchClient = useFetchClient(); // Использование useFetchClient
+  const fetchClient = useFetchClient();
   const toggleNotification = useNotification();
   const { config, isLoading } = useSelector(
     (state: any) => state[`${pluginId}_config`]
@@ -26,7 +26,6 @@ export const usePluginConfig = () => {
         const { data } = await fetchClient.get(endpoint, {
           signal: abortController.signal,
         });
-
         return data ?? {};
       } catch (err) {
         if (!abortController.signal.aborted) {

@@ -1,8 +1,9 @@
+import Header from "@editorjs/header";
+import Paragraph from "@editorjs/paragraph";
 import CheckList from "@editorjs/checklist";
 import Code from "@editorjs/code";
 import Delimiter from "@editorjs/delimiter";
 import Embed from "@editorjs/embed";
-import Header from "@editorjs/header";
 import InlineCode from "@editorjs/inline-code";
 import LinkTool from "@editorjs/link";
 import List from "@editorjs/list";
@@ -15,6 +16,7 @@ import ComponentSelectorTool from "editorjs-component-selector";
 
 type ToolOptions = {
   header?: boolean;
+  paragraph?: boolean;
   list?: boolean;
   checklist?: boolean;
   embed?: boolean;
@@ -32,6 +34,7 @@ type ToolOptions = {
 
 type ToolConfig = {
   header?: any;
+  paragraph?: any;
   list?: any;
   checklist?: any;
   embed?: any;
@@ -48,6 +51,8 @@ type ToolConfig = {
 };
 
 export const customTools = (options: ToolOptions, config: ToolConfig): {} => {
+  console.log("config", config);
+
   return {
     ...(options.header
       ? {
@@ -57,6 +62,10 @@ export const customTools = (options: ToolOptions, config: ToolConfig): {} => {
           },
         }
       : {}),
+    paragraph: {
+      class: Paragraph,
+      ...(config.paragraph ? config.paragraph : {}),
+    },
     ...(options.list
       ? {
           list: {

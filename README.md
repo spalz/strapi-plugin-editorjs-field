@@ -60,26 +60,24 @@ export default ({ env }) => ({
     // resolve: "./src/plugins/strapi-plugin-editorjs-field",
     config: {
       header: {
-        inlineToolbar: true,
-        config: {
-          inlineToolbar: [
+        inlineToolbar: [
             "bold",
             "italic",
             "hyperlink",
             "marker",
             "inlineCode",
           ],
+        config: {
           levels: [2, 3, 4],
           defaultLevel: 2,
         },
       },
+      paragraph: : { inlineToolbar: true },
       list: { inlineToolbar: true },
       checklist: { inlineToolbar: true },
       embed: null,
       table: { inlineToolbar: true },
-      warning: {
-        inlineToolbar: true,
-      },
+      warning: null,
       code: null,
       link_tool: {
         config: {
@@ -90,7 +88,7 @@ export default ({ env }) => ({
       quote: { inlineToolbar: true },
       marker: null,
       delimiter: null,
-      inlineCode: { inlineToolbar: true },
+      inlineCode: null,
       image: null,
       attaches: null,
       component: null,

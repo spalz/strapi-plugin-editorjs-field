@@ -1,4 +1,4 @@
-import { i } from "../_chunks/index-7b09320f.mjs";
+import { i } from "../_chunks/index-016f944f.mjs";
 import "@strapi/helper-plugin";
 import "react/jsx-runtime";
 import "@strapi/design-system";

@@ -140,6 +140,11 @@ let EditorjsFieldNew: React.FC<IEditorjsField> = ({
 
   useEffect(() => {
     if (!ref.current) {
+      console.log(
+        "customTools(attribute.options, config)",
+        customTools(attribute.options, config)
+      );
+
       const editor = new EditorJS({
         holder: `${name}`,
 
@@ -148,6 +153,7 @@ let EditorjsFieldNew: React.FC<IEditorjsField> = ({
           ...customTools(attribute.options, config),
           ...customToolsOther,
         },
+        defaultBlock: "paragraph",
         onReady: () => {
           document?.querySelector('[data-item-name="image"]')?.remove();
           document?.querySelector('[data-item-name="attaches"]')?.remove();
@@ -177,7 +183,7 @@ let EditorjsFieldNew: React.FC<IEditorjsField> = ({
         ref.current.destroy();
       }
     };
-  }, []);
+  }, [config]);
 
   return (
     <div>

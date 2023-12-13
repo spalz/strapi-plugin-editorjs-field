@@ -5,9 +5,21 @@ import { RESOLVE_CONFIG } from "../constants";
 const initialState = {
   isLoading: true,
   config: {
-    apiKey: null,
-    defaultCenter: null,
-    favoritesPlaces: null,
+    header: null,
+    paragraph: null,
+    list: null,
+    checklist: null,
+    embed: null,
+    table: null,
+    warning: null,
+    code: null,
+    link_tool: null,
+    raw: null,
+    quote: null,
+    marker: null,
+    delimiter: null,
+    inlineCode: null,
+    component: null,
   },
 };
 

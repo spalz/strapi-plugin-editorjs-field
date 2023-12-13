@@ -10,7 +10,7 @@ import {
 import { MessageDescriptor, useIntl } from "react-intl";
 
 import { usePluginConfig } from "../../hooks/usePluginConfig";
-import EditorjsFieldNew from "../editorjs_field/EditorjsField";
+import EditorjsField from "../editorjs_field/EditorjsField";
 
 import { SStyleWrapper } from "./styles";
 
@@ -48,11 +48,11 @@ export const Editorjs = React.forwardRef(
     ref: React.Ref<any>
   ) => {
     const { formatMessage } = useIntl();
-    const { config } = usePluginConfig();
+    const { config, isLoading } = usePluginConfig();
 
     return (
       <SStyleWrapper className={error !== "" ? "error" : null}>
-        {config ? (
+        {config && !isLoading ? (
           <Field
             id={name}
             name={name}
@@ -62,7 +62,7 @@ export const Editorjs = React.forwardRef(
           >
             <Stack spacing={1}>
               <FieldLabel>{formatMessage(intlLabel)}</FieldLabel>
-              <EditorjsFieldNew
+              <EditorjsField
                 intlLabel={intlLabel}
                 onChange={onChange}
                 attribute={attribute}
