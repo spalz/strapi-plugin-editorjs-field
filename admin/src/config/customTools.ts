@@ -51,8 +51,6 @@ type ToolConfig = {
 };
 
 export const customTools = (options: ToolOptions, config: ToolConfig): {} => {
-  console.log("config", config);
-
   return {
     ...(options.header
       ? {

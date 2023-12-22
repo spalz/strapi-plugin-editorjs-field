@@ -74,6 +74,15 @@ export default {
                 },
               },
               {
+                name: "options.table",
+                type: "checkbox",
+                defaultValue: true,
+                intlLabel: {
+                  id: "editorjs.tools.settings.table",
+                  defaultMessage: "Table",
+                },
+              },
+              {
                 name: "options.warning",
                 type: "checkbox",
                 defaultValue: true,

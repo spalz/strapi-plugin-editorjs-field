@@ -75,6 +75,7 @@ export const Editorjs = React.forwardRef(
                 value={value}
                 placeholder={placeholder}
                 config={config}
+                isLoading={isLoading}
               />
               <FieldHint />
               <FieldError />

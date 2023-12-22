@@ -40,6 +40,7 @@ interface IEditorjsField {
     defaultMessage: string;
   };
   config?: any;
+  isLoading?: boolean;
 }
 
 const INITIAL_DATA: OutputData = {
@@ -60,6 +61,7 @@ let EditorjsFieldNew: React.FC<IEditorjsField> = ({
   onChange,
   attribute,
   config,
+  isLoading,
 }) => {
   const ref = useRef<EditorJS | null>(null);
   const [newEditorInstance, setnewEditorInstance] = useState<API>();
@@ -88,7 +90,6 @@ let EditorjsFieldNew: React.FC<IEditorjsField> = ({
 
   const handleMediaLibChange = useCallback(
     (data: any) => {
-      console.log("handleMediaLibChange", data);
       changeFunc({
         indexStateSetter: setMediaLibBlockIndex,
         data,
@@ -102,7 +103,6 @@ let EditorjsFieldNew: React.FC<IEditorjsField> = ({
 
   const handleMediaLibAttachesChange = useCallback(
     (data: any) => {
-      console.log("handleMediaLibAttachesChange", data);
       changeFuncAttaches({
         indexStateSetter: setMediaLibAttachesBlockIndex,
         data,
@@ -140,10 +140,6 @@ let EditorjsFieldNew: React.FC<IEditorjsField> = ({
 
   useEffect(() => {
     if (!ref.current) {
-      console.log(
-        "customTools(attribute.options, config)",
-        customTools(attribute.options, config)
-      );
 
       const editor = new EditorJS({
         holder: `${name}`,
@@ -183,7 +179,7 @@ let EditorjsFieldNew: React.FC<IEditorjsField> = ({
         ref.current.destroy();
       }
     };
-  }, [config]);
+  }, [config, isLoading]);
 
   return (
     <div>

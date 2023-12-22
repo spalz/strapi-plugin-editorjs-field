@@ -1,6 +1,6 @@
 {
   "name": "strapi-plugin-editorjs-field",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "You can extend the capabilities of strapi.io by incorporating a custom field utilizing the EditorJs editor.",
   "homepage": "https://market.strapi.io/strapi-plugin-editorjs-field",
   "strapi": {
@@ -13,6 +13,7 @@
   },
   "scripts": {
     "build": "NODE_ENV=production strapi plugin:build --force",
+    "publish": "npm publish",
     "watch": "run -T tsc -w --preserveWatchOutput",
     "lint": "yarn lint:project && yarn lint:back && yarn lint:front",
     "lint:project": "run -T eslint . -c ./.eslintrc.js",
