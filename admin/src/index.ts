@@ -25,7 +25,7 @@ export default {
       components: {
         Input: async () =>
           import("./components/editorjs/Editorjs").then((module) => ({
-            default: module.Editorjs,
+            default: module.Editorjs
           })),
       },
       options: {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import {
   Field,
@@ -52,7 +52,7 @@ export const Editorjs = React.forwardRef(
 
     return (
       <SStyleWrapper className={error !== "" ? "error" : null}>
-        {config && !isLoading ? (
+        {config ? (
           <Field
             id={name}
             name={name}

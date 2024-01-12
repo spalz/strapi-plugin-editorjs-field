@@ -41,6 +41,7 @@ interface IEditorjsField {
   };
   config?: any;
   isLoading?: boolean;
+  id?: string;
 }
 
 const INITIAL_DATA: OutputData = {
@@ -62,8 +63,10 @@ let EditorjsFieldNew: React.FC<IEditorjsField> = ({
   attribute,
   config,
   isLoading,
+  id,
 }) => {
-  const ref = useRef<EditorJS | null>(null);
+  const editorContainerRef = useRef<HTMLDivElement>(null);
+  const editorInstanceRef = useRef<EditorJS | null>(null);
   const [newEditorInstance, setnewEditorInstance] = useState<API>();
   const [mediaLibBlockIndex, setMediaLibBlockIndex] = useState(-1);
   const [isMediaLibOpen, setIsMediaLibOpen] = useState(false);
@@ -139,10 +142,9 @@ let EditorjsFieldNew: React.FC<IEditorjsField> = ({
     };
 
   useEffect(() => {
-    if (!ref.current) {
-
+    if (!editorInstanceRef.current && editorContainerRef.current) {
       const editor = new EditorJS({
-        holder: `${name}`,
+        holder: editorContainerRef.current,
 
         tools: {
           ...requiredTools,
@@ -171,19 +173,25 @@ let EditorjsFieldNew: React.FC<IEditorjsField> = ({
         },
         minHeight: config.minHeight ? config.minHeight : 80,
       });
-      ref.current = editor;
+      editorInstanceRef.current = editor;
     }
 
     return () => {
-      if (ref.current && ref.current.destroy) {
-        ref.current.destroy();
+      if (
+        editorInstanceRef.current &&
+        typeof editorInstanceRef.current.destroy === "function"
+      ) {
+        editorInstanceRef.current.destroy();
+        editorInstanceRef.current = null;
       }
     };
-  }, [config, isLoading]);
+  }, [config, isLoading, name]);
+
+  console.log("name", id + name);
 
   return (
     <div>
-      <SEditor id={`${name}`} />
+      <SEditor ref={editorContainerRef} />
       <MediaLibComponent
         isOpen={isMediaLibOpen}
         onChange={handleMediaLibChange}
