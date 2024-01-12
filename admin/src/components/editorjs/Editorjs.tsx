@@ -52,14 +52,14 @@ export const Editorjs = React.forwardRef(
 
     return (
       <SStyleWrapper className={error !== "" ? "error" : null}>
-        {config ? (
-          <Field
-            id={name}
-            name={name}
-            hint={description && formatMessage(description)}
-            required={attribute.required}
-            error={error}
-          >
+        <Field
+          id={name}
+          name={name}
+          hint={description && formatMessage(description)}
+          required={attribute.required}
+          error={error}
+        >
+          {config && !isLoading ? (
             <Stack spacing={1}>
               <FieldLabel>{formatMessage(intlLabel)}</FieldLabel>
               <EditorjsField
@@ -75,13 +75,12 @@ export const Editorjs = React.forwardRef(
                 value={value}
                 placeholder={placeholder}
                 config={config}
-                isLoading={isLoading}
               />
               <FieldHint />
               <FieldError />
             </Stack>
-          </Field>
-        ) : null}
+          ) : null}
+        </Field>
       </SStyleWrapper>
     );
   }

@@ -40,7 +40,6 @@ interface IEditorjsField {
     defaultMessage: string;
   };
   config?: any;
-  isLoading?: boolean;
   id?: string;
 }
 
@@ -62,7 +61,6 @@ let EditorjsFieldNew: React.FC<IEditorjsField> = ({
   onChange,
   attribute,
   config,
-  isLoading,
   id,
 }) => {
   const editorContainerRef = useRef<HTMLDivElement>(null);
@@ -185,9 +183,7 @@ let EditorjsFieldNew: React.FC<IEditorjsField> = ({
         editorInstanceRef.current = null;
       }
     };
-  }, [config, isLoading, name]);
-
-  console.log("name", id + name);
+  }, [config]);
 
   return (
     <div>
