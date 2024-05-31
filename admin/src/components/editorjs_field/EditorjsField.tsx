@@ -62,6 +62,7 @@ let EditorjsFieldNew: React.FC<IEditorjsField> = ({
   attribute,
   config,
   id,
+  labelAction,
 }) => {
   const editorContainerRef = useRef<HTMLDivElement>(null);
   const editorInstanceRef = useRef<EditorJS | null>(null);

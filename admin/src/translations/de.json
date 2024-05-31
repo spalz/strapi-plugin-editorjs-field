@@ -1,0 +1,8 @@
+{
+  "editorjs.label": "EditorJs",
+  "editorjs.description": "Block-Style-Editor, JSON-Ausgabe",
+  "editorjs.tools.settings": "Werkzeugeinstellungen, Aktivierung/Deaktivierung von Werkzeugen",
+
+  "editorjs.options.advanced.requiredField": "Pflichtfeld",
+  "editorjs.options.advanced.requiredField.description": "Sie können keinen Eintrag erstellen, wenn dieses Feld leer ist"
+}

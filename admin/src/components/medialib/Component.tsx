@@ -27,7 +27,7 @@ export const MediaLibComponent: React.FC<IMediaLibComponent> = ({
   onToggle,
   allowedTypes,
 }) => {
-  const { components } = useLibrary();
+  const { components }: any = useLibrary();
   const [data, setData] = React.useState<FormattedMediaFile[] | null>(null);
 
   const MediaLibraryDialog = components["media-library"];

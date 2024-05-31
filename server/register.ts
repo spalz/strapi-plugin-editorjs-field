@@ -5,7 +5,6 @@ import { pluginId } from "./utils";
 export const register = ({ strapi }: { strapi: Strapi }) => {
   strapi.customFields.register({
     name: pluginId,
-    // @ts-ignore
     plugin: pluginId,
     type: "richtext",
   });

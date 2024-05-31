@@ -1,3 +1,3 @@
-"use strict";
+'use strict';
 
-module.exports = require("./dist/admin");
+module.exports = require('./admin/src').default;

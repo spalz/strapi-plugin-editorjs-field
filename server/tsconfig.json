@@ -1,8 +1,0 @@
-{
-  "extends": "./base.json",
-  "include": ["./src", "./src/types.d.ts"],
-  "compilerOptions": {
-    "rootDir": "../",
-    "baseUrl": "."
-  }
-}

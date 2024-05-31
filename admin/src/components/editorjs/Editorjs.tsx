@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import {
   Field,
@@ -49,9 +49,32 @@ export const Editorjs = React.forwardRef(
   ) => {
     const { formatMessage } = useIntl();
     const { config, isLoading } = usePluginConfig();
+    const [uniqueKey, setUniqueKey] = useState<string | null>(null);
+
+    // Extracting key parts from URL
+    const createKeyFromURL = () => {
+      const url = new URL(window.location.href);
+      const locale = url.searchParams.get("plugins[i18n][locale]");
+      const parts = url.pathname.split("/");
+      const apiType = parts[parts.length - 3];
+      const id = parts[parts.length - 1];
+
+      if (apiType || id || locale) {
+        return `${apiType || ""}${id || ""}${locale || ""}`;
+      }
+      return null;
+    };
+
+    useEffect(() => {
+      const key = createKeyFromURL();
+      setUniqueKey(key);
+    }, [window.location.href]);
 
     return (
-      <SStyleWrapper className={error !== "" ? "error" : null}>
+      <SStyleWrapper
+        className={error !== "" ? "error" : null}
+        key={uniqueKey || undefined}
+      >
         <Field
           id={name}
           name={name}
@@ -61,7 +84,15 @@ export const Editorjs = React.forwardRef(
         >
           {config && !isLoading ? (
             <Stack spacing={1}>
-              <FieldLabel>{formatMessage(intlLabel)}</FieldLabel>
+              <FieldLabel
+                action={labelAction}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                {formatMessage(intlLabel)}
+              </FieldLabel>
               <EditorjsField
                 intlLabel={intlLabel}
                 onChange={onChange}
