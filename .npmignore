@@ -107,5 +107,3 @@ jest.config.js
 LICENSE
 README.md
 yarn.lock
-server
-admin
