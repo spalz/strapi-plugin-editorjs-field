@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-
 import {
   Field,
   FieldError,
@@ -8,10 +7,8 @@ import {
   Stack,
 } from "@strapi/design-system";
 import { MessageDescriptor, useIntl } from "react-intl";
-
 import { usePluginConfig } from "../../hooks/usePluginConfig";
 import EditorjsField from "../editorjs_field/EditorjsField";
-
 import { SStyleWrapper } from "./styles";
 
 interface IEditorjs {
@@ -50,6 +47,8 @@ export const Editorjs = React.forwardRef(
     const { formatMessage } = useIntl();
     const { config, isLoading } = usePluginConfig();
     const [uniqueKey, setUniqueKey] = useState<string | null>(null);
+    const [transitionEnded, setTransitionEnded] = useState(false);
+    const nodeRef = useRef<HTMLDivElement>(null);
 
     // Extracting key parts from URL
     const createKeyFromURL = () => {
@@ -65,13 +64,45 @@ export const Editorjs = React.forwardRef(
       return null;
     };
 
-    useEffect(() => {
+    // Function to update the key
+    const updateKey = () => {
       const key = createKeyFromURL();
       setUniqueKey(key);
-    }, [window.location.href]);
+    };
+
+    useEffect(() => {
+      const handleTransitionEnd = () => {
+        setTransitionEnded(true);
+      };
+
+      const observer = new MutationObserver(() => {
+        setTransitionEnded(true);
+      });
+
+      const node = nodeRef.current;
+      if (node) {
+        node.addEventListener("transitionend", handleTransitionEnd);
+        observer.observe(node, { childList: true, subtree: true });
+      }
+
+      return () => {
+        if (node) {
+          node.removeEventListener("transitionend", handleTransitionEnd);
+        }
+        observer.disconnect();
+      };
+    }, []);
+
+    useEffect(() => {
+      if (transitionEnded && value) {
+        updateKey();
+        setTransitionEnded(false);
+      }
+    }, [transitionEnded, value]);
 
     return (
       <SStyleWrapper
+        ref={nodeRef}
         className={error !== "" ? "error" : null}
         key={uniqueKey || undefined}
       >
